@@ -5,7 +5,6 @@ const API_BASE = import.meta.env.VITE_API_URL
 // Call this with the Clerk getToken function from useAuth()
 async function authFetch(url, options = {}, getToken) {
   const token = getToken ? await getToken() : null;
-  console.log('Token:', token ? 'exists' : 'MISSING');
   const headers = {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
