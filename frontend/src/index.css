@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #080b10;
+  --surface: #0d1117;
+  --card: #111820;
+  --border: #1a2332;
+  --accent: #00d4ff;
+  --gold: #ffd700;
+  --green: #00ff87;
+  --red: #ff3b5c;
+  --amber: #ffaa00;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #e2e8f0;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Scan line overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 212, 255, 0.015) 2px,
+    rgba(0, 212, 255, 0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Noise texture overlay */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.4;
+}
+
+.font-display { font-family: 'Bebas Neue', cursive; }
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Glow effects */
+.glow-accent { box-shadow: 0 0 20px rgba(0, 212, 255, 0.3); }
+.glow-green { box-shadow: 0 0 20px rgba(0, 255, 135, 0.3); }
+.glow-red { box-shadow: 0 0 20px rgba(255, 59, 92, 0.3); }
+.glow-gold { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+.text-glow-accent { text-shadow: 0 0 10px rgba(0, 212, 255, 0.8); }
+.text-glow-green { text-shadow: 0 0 10px rgba(0, 255, 135, 0.8); }
+.text-glow-gold { text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); }
+
+/* Card styles */
+.oracle-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.oracle-card:hover { border-color: rgba(0, 212, 255, 0.3); }
+
+/* Signal badge */
+.signal-strong { color: #00ff87; border-color: #00ff87; }
+.signal-moderate { color: #00d4ff; border-color: #00d4ff; }
+.signal-lean { color: #ffaa00; border-color: #ffaa00; }
+.signal-avoid { color: #ff3b5c; border-color: #ff3b5c; }
+.signal-fade { color: #ff3b5c; border-color: #ff3b5c; }
+
+/* Loading shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, var(--card) 25%, var(--border) 50%, var(--card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Confidence meter */
+@keyframes fillBar {
+  from { width: 0; }
+  to { width: var(--target-width); }
+}
+
+/* Blinking cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.cursor-blink::after {
+  content: '|';
+  animation: blink 1s infinite;
+  color: var(--accent);
+}
+
+/* Chart tooltips */
+.recharts-tooltip-wrapper { z-index: 100; }
