@@ -35,8 +35,8 @@ app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    process.env.FRONTEND_URL,
-  ].filter(Boolean),
+    'https://sports-oracle-pied.vercel.app',
+  ],
   credentials: true,
 }));
 app.use(express.json());
