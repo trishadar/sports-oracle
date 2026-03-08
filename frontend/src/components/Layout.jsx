@@ -32,7 +32,10 @@ export default function Layout({ children }) {
     function connect() {
       try {
         const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-        ws = new WebSocket(`${protocol}//${window.location.host}`);
+        const host = import.meta.env.VITE_API_URL
+          ? import.meta.env.VITE_API_URL.replace('https://', '').replace('http://', '')
+          : window.location.host;
+        ws = new WebSocket(`${protocol}//${host}`);
         ws.onopen = () => setWsConnected(true);
         ws.onclose = () => {
           setWsConnected(false);
@@ -45,7 +48,7 @@ export default function Layout({ children }) {
             setTimeout(() => setLiveActivity(null), 4000);
           }
         };
-      } catch {}
+      } catch { }
     }
     connect();
     return () => { if (ws) ws.close(); clearTimeout(reconnectTimer); };
@@ -95,10 +98,9 @@ export default function Layout({ children }) {
                   to={path}
                   end={path === '/'}
                   className={({ isActive }) =>
-                    `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-body transition-all duration-200 group ${
-                      isActive
-                        ? 'bg-oracle-accent/10 text-oracle-accent border border-oracle-accent/20'
-                        : 'text-oracle-dim hover:text-oracle-text hover:bg-oracle-border/50'
+                    `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-body transition-all duration-200 group ${isActive
+                      ? 'bg-oracle-accent/10 text-oracle-accent border border-oracle-accent/20'
+                      : 'text-oracle-dim hover:text-oracle-text hover:bg-oracle-border/50'
                     }`
                   }
                 >
