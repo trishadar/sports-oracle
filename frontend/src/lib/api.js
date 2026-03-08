@@ -1,4 +1,6 @@
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api`
+  : '/api';
 
 // Call this with the Clerk getToken function from useAuth()
 async function authFetch(url, options = {}, getToken) {
